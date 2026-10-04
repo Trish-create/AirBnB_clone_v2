@@ -20,7 +20,6 @@ class HBNBCommand(cmd.Cmd):
         "State": State,
         "City": City,
         "Place": Place
-        
     }
 
     def do_quit(self, arg):
@@ -48,7 +47,7 @@ class HBNBCommand(cmd.Cmd):
         if class_name not in self.classes:
             print("** class doesn't exist **")
             return
-        
+
         new_instance = self.classes[class_name]()
 
         for parameter in args[1:]:
@@ -99,7 +98,7 @@ class HBNBCommand(cmd.Cmd):
 
         if key not in objects:
             print("** no instance found **")
-            return 
+            return
 
         print(objects[key])
 
