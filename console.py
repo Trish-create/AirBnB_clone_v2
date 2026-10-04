@@ -39,59 +39,86 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        try:
-            tokens = shlex.split(arg, posix=False)
-        except ValueError:
+        args = shlex.split(arg)
+        class_name = args[0]
+
+        if class_name not in self.classes:
+            print("** class doesn't exist **")
+            return
+        
+        new_instance = self.classes[class_name]()
+
+        for parameter in args[1:]:
+            if "=" not in parameter:
+                continue
+
+            key, value = parameter.split("=", 1)
+
+            if not key or not value:
+                continue
+
+            if value.replace(".", "", 1).replace("-", "", 1).isdigit():
+                if "." in value:
+                    value = float(value)
+                else:
+                    value = int(value)
+            else:
+                value = value.replace("_", " ")
+
+            setattr(new_instance, key, value)
+
+        new_instance.save()
+        print(new_instance.id)
+
+    def do_show(self, arg):
+        """This will print the string representation."""
+        if not arg:
+            print("** class name is missing **")
             return
 
-        if not tokens:
-            print("** class name missing **")
-            return
+        args = arg.split()
 
-        class_name = tokens[0]
+        class_name = args[0]
 
         if class_name not in self.classes:
             print("** class doesn't exist **")
             return
 
-        params = {}
+        if len(args) < 2:
+            print("** instance id missing **")
+            return
 
-        for token in tokens[1:]:
-            if "=" not in token:
-                continue
+        instance_id = args[1]
 
-            key, value = token.split("=", 1)
+        objects = storage.all()
 
-            if not key or not value:
-                continue
+        key = "{}.{}".format(class_name, instance_id)
 
-            # String: must start and end with double quotes.
-            if value.startswith('"'):
-                if not value.endswith('"') or len(value) < 2:
-                    continue
+        if key not in objects:
+            print("** no instance found **")
+            return 
 
-                value = value[1:-1]
-                value = value.replace('\\"', '"')
-                value = value.replace("_", " ")
-                params[key] = value
+        print(objects[key])
 
-            # Float: contains a decimal point.
-            elif "." in value:
-                try:
-                    params[key] = float(value)
-                except ValueError:
-                    continue
+    def do_all(self, arg):
+        """Print all instances or all instances of a class."""
+        objects = storage.all()
 
-            # Integer: default numeric case.
-            else:
-                try:
-                    params[key] = int(value)
-                except ValueError:
-                    continue
+        if not arg:
+            print([str(obj) for obj in objects.values()])
+            return
 
-        instance = self.classes[class_name](**params)
-        instance.save()
-        print(instance.id)
+        class_name = arg.strip()
+
+        if class_name not in self.classes:
+            print("** class doesn't exist **")
+            return
+
+        print([
+            str(obj)
+            for obj in objects.values()
+            if obj.__class__.__name__ == class_name
+        ])
 
 
 if __name__ == "__main__":

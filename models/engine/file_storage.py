@@ -32,10 +32,10 @@ class FileStorage:
         """Serialize objects to the JSON file."""
         objects_dict = {}
 
-        for key, obj in FileStorage.__objects.items():
-            objects_dict[key] = obj.to_dict()
+        for obj_id, obj in self.__objects.items():
+            objects_dict[obj_id] = obj.to_dict()
 
-        with open(FileStorage.__file_path, "w") as file:
+        with open(self.__file_path, "w") as file:
             json.dump(objects_dict, file)
 
     def delete(self, obj=None):
