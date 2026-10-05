@@ -12,6 +12,7 @@ from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
 
+
 class HBNBCommand(cmd.Cmd):
     """Command interpreter for the AirBnB project."""
 
@@ -211,6 +212,7 @@ class HBNBCommand(cmd.Cmd):
 
         setattr(obj, attribute, value)
         obj.save()
+
 
 if __name__ == "__main__":
     storage.reload()

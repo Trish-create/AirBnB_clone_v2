@@ -10,7 +10,6 @@ from models.base_model import BaseModel
 class User(BaseModel):
     """User model,"""
 
-
     __tablename__ = "users"
 
     email = Column(String(128), nullable=False)

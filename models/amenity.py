@@ -8,7 +8,7 @@ from models.base_model import BaseModel
 class Amenity(BaseModel):
     """Amenity model."""
 
-    __tablename__= "amenities"
+    __tablename__ = "amenities"
 
     name = Column(String(128), nullable=False)
 
