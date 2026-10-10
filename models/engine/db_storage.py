@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 from models.user import User
 from models.state import State
 from models.city import City
@@ -85,7 +85,7 @@ class DBStorage:
 
     def reload(self):
         """Create tables and initialize the database session."""
-        BaseModel.metadata.create_all(self.__engine)
+        Base.metadata.create_all(self.__engine)
 
         session_factory = sessionmaker(
             bind=self.__engine,

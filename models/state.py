@@ -2,10 +2,10 @@
 
 from sqlalchemy import Column, String
 
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 
 
-class State(BaseModel):
+class State(BaseModel, Base):
     """State model."""
 
     __tablename__ = "states"

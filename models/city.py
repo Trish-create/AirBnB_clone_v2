@@ -2,10 +2,10 @@
 
 from sqlalchemy import Column, String, ForeignKey
 
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 
 
-class City(BaseModel):
+class City(BaseModel, Base):
     """City model."""
 
     __tablename__ = "cities"
