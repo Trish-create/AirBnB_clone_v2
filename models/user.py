@@ -4,7 +4,7 @@
 from sqlalchemy import Column, String
 
 
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 
 
 class User(BaseModel):
@@ -16,7 +16,3 @@ class User(BaseModel):
     password = Column(String(128), nullable=False)
     first_name = Column(String(128), nullable=True)
     last_name = Column(String(128), nullable=True)
-
-    def __init__(self, *args, **kwargs):
-        """Initialize a User."""
-        super().__init__(*args, **kwargs)
