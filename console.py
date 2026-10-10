@@ -47,7 +47,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        args = shlex.split(arg)
+        args = shlex.split(arg, posix=False)
         class_name = args[0]
 
         if class_name not in self.classes:
@@ -90,10 +90,9 @@ class HBNBCommand(cmd.Cmd):
 
         try:
             instance.save()
-        except Exception:
-            pass
-
-        print(instance.id)
+            print(instance.id)
+        except Exception as error:
+            print("Error saving instance: {}".format(error))
 
     def do_show(self, arg):
         """Show an object."""
